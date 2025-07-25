@@ -80,6 +80,26 @@
           "prenom": "Mathieu",
           "nom": "LE GAC",
           "email": "mathieu.legac@omexom.com"
+        },
+        {
+          "prenom": "Emmanuel",
+          "nom": "GAITA",
+          "email": "emmanuel.gaita@omexom.com"
+        },
+        {
+          "prenom": "Mathieu",
+          "nom": "MERLIER",
+          "email": "mathieu.merlier@omexom.com"
+        },
+        {
+          "prenom": "Gérald",
+          "nom": "GUILLAUME",
+          "email": "gerald.guillaume@omexom.com"
+        },
+        {
+          "nom": "CAROLLE",
+          "prenom": "Kelian",
+          "email": "kelian.carolle@omexom.com"
         }
       ]
     }
