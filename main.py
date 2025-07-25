@@ -63,10 +63,10 @@ class ContactsApp:
 
         self.c_name_entry, self.c_street_entry, self.c_zip_entry, self.c_city_entry, self.c_country_entry = self.company_entries
 
-        self.company_action_button = ttk.Button(self.company_form_frame, text="Ajouter l'entreprise",command=self.add_update_company)
+        self.company_action_button = ttk.Button(self.company_form_frame, text="Ajouter",command=self.add_update_company)
         self.company_action_button.grid(row=len(company_labels), column=0, columnspan=2, pady=10)
 
-        self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
+
 
         # Formulaire "Contact"
         self.employee_form_frame = ttk.LabelFrame(self.right_frame, text="Contact", padding=10)
@@ -82,6 +82,9 @@ class ContactsApp:
             self.employees_entries.append(entry)
 
         self.e_lastname_entry, self.e_firstname_entry, self.c_email_entry  = self.employees_entries
+
+        self.employee_action_button = ttk.Button(self.employee_form_frame, text="Ajouter", command=self.add_update_employee())
+        self.employee_action_button.grid(row=len(company_labels), column=0, columnspan=2, pady=10)
 
         self.refresh_list()
 
@@ -102,23 +105,7 @@ class ContactsApp:
     def add_update_employee(self):
         pass
 
-    def on_tree_select(self, event):
-        selected_items = self.tree.selection()
-        if not selected_items:
-            self.clear_company_form()
-            return
 
-        selected_item = selected_items[0]
-        parent_item = self.tree.parent(selected_item)
-
-        if parent_item == '':  # An enterprise is selected
-            self.selected_company_item = selected_item
-            company_data = self.tree.item(selected_item, "values")[0]  # Retrieve the stored company dictionary
-            self.populate_company_form(company_data)
-            self.company_action_button.config(text="Modifier l'entreprise")
-        else:  # An employee is selected (or nothing at all)
-            self.clear_company_form()  # Clear form if an employee is selected
-            self.selected_company_item = None  # No company selected
 
 
 if __name__ == "__main__":
