@@ -3,6 +3,144 @@ import os
 import ttkbootstrap as ttk
 import re
 from tkinter import messagebox
+from dataclasses import dataclass
+from typing import List, Optional
+
+# Constants
+FICHIER_JSON = "contacts.json"
+EMAIL_REGEX = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+POLICE_UI = "Segoe UI"
+TAILLE_FENETRE = (1000, 550)
+
+@dataclass
+class Adresse:
+    rue: str
+    code_postal: str
+    ville: str
+    pays: str
+
+@dataclass
+class Contact:
+    nom: str
+    prenom: str
+    email: str
+
+@dataclass
+class Entreprise:
+    nom: str
+    adresse: Adresse
+    personnel: List[Contact]
+
+class GestionnaireDonnees:
+    def __init__(self):
+        self.donnees = self.charger_donnees()
+        
+    def charger_donnees(self):
+        try:
+            if os.path.exists(FICHIER_JSON):
+                with open(FICHIER_JSON, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        except FileNotFoundError:
+            return {"entreprises": []}
+            
+    def sauvegarder_donnees(self):
+        with open(FICHIER_JSON, "w", encoding="utf-8") as f:
+            json.dump(self.donnees, f, indent=2, ensure_ascii=False)
+
+class ContactsApp:
+    def __init__(self, root):
+        self.root = root
+        self.gestionnaire = GestionnaireDonnees()
+        self.email_pattern = re.compile(EMAIL_REGEX)
+        self.selection_index = None
+        self.initialiser_interface()
+        
+    def initialiser_interface(self):
+        self._configurer_style()
+        self._creer_frames()
+        self._creer_treeview()
+        self._creer_formulaire_entreprise()
+        self._creer_formulaire_contact()
+        self.rafraichir_liste()
+        
+    def _configurer_style(self):
+        style = ttk.Style()
+        style.theme_use("yeti")
+        style.configure("Treeview", font=(POLICE_UI, 11))
+        style.configure("Treeview.Heading", font=(POLICE_UI, 11, "bold"))
+        style.configure("Custom.Treeview", rowheight=28)
+        
+    def _creer_frames(self):
+        self.frame_gauche = ttk.Frame(self.root, padding=10)
+        self.frame_gauche.pack(side="left", fill="both", expand=True, padx=10, pady=10)
+        
+        self.frame_droite = ttk.Frame(self.root, padding=10)
+        self.frame_droite.pack(side="right", fill="both", expand=True, padx=10, pady=10)
+        
+    def _creer_treeview(self):
+        self.tree = ttk.Treeview(self.frame_gauche, columns="info", show="tree", style="Custom.Treeview")
+        self.tree.tag_configure("entreprise", font=(POLICE_UI, 11, "bold"), foreground="#158cba")
+        self.tree.pack(side="left", fill="both", expand=True, padx=10, pady=10)
+        self.tree.bind('<<TreeviewSelect>>', self.selectionner_element)
+        
+    def _creer_formulaire_entreprise(self):
+        self.form_entreprise = ttk.LabelFrame(self.frame_droite, text="Entreprise", padding=10)
+        self.form_entreprise.pack(fill="x", padx=10, pady=(0, 10))
+        
+        champs = ["Nom", "Rue", "CP", "Ville", "Pays"]
+        self.entrees_entreprise = []
+        
+        for i, label in enumerate(champs):
+            ttk.Label(self.form_entreprise, text=label).grid(row=i, column=0, sticky="e", padx=(5, 10), pady=5)
+            entree = ttk.Entry(self.form_entreprise, width=40)
+            entree.grid(row=i, column=1, sticky="ew", padx=5, pady=5)
+            entree.bind('<KeyRelease>', self.valider_formulaire_entreprise)
+            self.entrees_entreprise.append(entree)
+            
+        self.btn_entreprise = ttk.Button(
+            self.form_entreprise,
+            text="Ajouter",
+            command=self.ajouter_modifier_entreprise
+        )
+        self.btn_entreprise.grid(row=len(champs), column=1, sticky="e", pady=10)
+        
+    def _creer_formulaire_contact(self):
+        self.form_contact = ttk.LabelFrame(self.frame_droite, text="Contact", padding=10)
+        self.form_contact.pack(fill="x", padx=10, pady=(0, 10))
+        
+        champs = ["Nom", "Prénom", "Email"]
+        self.entrees_contact = []
+        
+        for i, label in enumerate(champs):
+            ttk.Label(self.form_contact, text=label).grid(row=i, column=0, sticky="e", padx=(5, 10), pady=5)
+            entree = ttk.Entry(self.form_contact, width=40, state="disabled")
+            entree.grid(row=i, column=1, sticky="ew", padx=5, pady=5)
+            self.entrees_contact.append(entree)
+            
+        self.label_erreur_email = ttk.Label(
+            self.form_contact,
+            text="",
+            foreground="red",
+            font=(POLICE_UI, 9)
+        )
+        self.label_erreur_email.grid(row=3, column=1, sticky="w", padx=5)
+        
+        self.btn_contact = ttk.Button(
+            self.form_contact,
+            text="Ajouter",
+            command=self.ajouter_modifier_contact,
+            state="disabled"
+        )
+        self.btn_contact.grid(row=len(champs), column=1, sticky="e", pady=10)
+        
+        self.entrees_contact[2].bind('<KeyRelease>', self.valider_email)
+
+    # Les autres méthodes restent identiques mais sont réorganisées selon leur responsabilité
+import json
+import os
+import ttkbootstrap as ttk
+import re
+from tkinter import messagebox
 
 FICHIER_JSON = "contacts.json"
 
