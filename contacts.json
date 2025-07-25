@@ -1,0 +1,87 @@
+{
+  "entreprises": [
+    {
+      "nom": "RTE CDI NANCY",
+      "adresse": {
+        "rue": "8, Rue de Versigny",
+        "ville": "VILLERS LES NANCY",
+        "code_postal": "54608",
+        "pays": "France"
+      },
+      "personnel": [
+        {
+          "prenom": "Frédéric",
+          "nom": "LALLEMENT",
+          "email": "frederic.lallement@rte-france.com"
+        },
+        {
+          "prenom": "Alexandre",
+          "nom": "BARETTE",
+          "email": "alexandre.barette@rte-france.com"
+        },
+        {
+          "prenom": "Patrice",
+          "nom": "PINNA",
+          "email": "patrice.pinna@rte-france.com"
+        },
+        {
+          "prenom": "Emmanuel",
+          "nom": "RAMIRES",
+          "email": "emmanuel.ramires@rte-france.com"
+        }
+      ]
+    },
+    {
+      "nom": "ENEDIS BRIPS NANCY",
+      "adresse": {
+        "rue": "2, Boulevard Cattenoz",
+        "ville": "VILLERS LES NANCY",
+        "code_postal": "54602",
+        "pays": "France"
+      },
+      "personnel": [
+        {
+          "prenom": "Clément",
+          "nom": "COLONNA",
+          "email": "clement.colonna@enedis.fr"
+        },
+        {
+          "prenom": "Clément",
+          "nom": "VACHEZ",
+          "email": "clement.vachez@enedis.fr"
+        }
+      ]
+    },
+    {
+      "nom": "OMEXOM NANCY - CHANTIER",
+      "adresse": {
+        "rue": "2, Rue du Bois Jacquot",
+        "ville": "MILLERY",
+        "code_postal": "54670",
+        "pays": "France"
+      },
+      "personnel": [
+        {
+          "prenom": "Mohammed",
+          "nom": "AICH",
+          "email": "mohammed.aich@omexom.com"
+        },
+        {
+          "prenom": "Ludovic",
+          "nom": "CREPIN",
+          "email": "ludovic.crepin@omexom.com"
+        },
+        {
+          "prenom": "Stéphane",
+          "nom": "DEMANDRILLE",
+          "email": "stephane.demandrille@omexom.com"
+        },
+        {
+          "prenom": "Mathieu",
+          "nom": "LE GAC",
+          "email": "mathieu.legac@omexom.com"
+        }
+      ]
+    }
+  ]
+}
